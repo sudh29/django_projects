@@ -21,8 +21,9 @@ class FormName(forms.Form):
 
     def clean(self):
         all_clear_data = super().clean()
-        email = all_clear_data["email"]
-        verify_email = all_clear_data["verify_email"]
+        email = all_clear_data.get("email")
+        verify_email = all_clear_data.get("verify_email")
 
-        if email != verify_email:
+        if email and verify_email and email != verify_email:
             raise forms.ValidationError("Email not matching")
+        return all_clear_data
